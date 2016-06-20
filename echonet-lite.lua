@@ -38,9 +38,6 @@ echonetlite.fields.ehd2 = ProtoField.uint8("echonetlite.ehd2",  "EHD2", base.HEX
 echonetlite.fields.tid  = ProtoField.uint16("echonetlite.tid",  "Transaction ID (TID)", base.HEX)
 echonetlite.fields.reqin  = ProtoField.framenum("echonetlite.request_in", "Request In")
 echonetlite.fields.resin  = ProtoField.framenum("echonetlite.response_in", "Response In")
-echonetlite.fields.seoj = ProtoField.uint24("echonetlite.seoj", "SEOJ", base.HEX)
-echonetlite.fields.deoj = ProtoField.uint24("echonetlite.deoj", "DEOJ", base.HEX)
-echonetlite.fields.esv  = ProtoField.uint8("echonetlite.esv",   "ESV",  base.HEX)
 
 -- ========================================================
 -- Local state variable
@@ -78,10 +75,8 @@ function echonetlite.dissector(buffer, pinfo, tree)
         end
     end
 
-    subtree:add(echonetlite.fields.seoj, buffer(4, 3))
-    subtree:add(echonetlite.fields.deoj, buffer(7, 3))
-    subtree:add(echonetlite.fields.esv,  buffer(10, 1))
-
+    header_dissector = Dissector.get("echonetlite.edata")
+    header_dissector:call(buffer(4):tvb(), pinfo, subtree)
 end
 
 -- ========================================================
