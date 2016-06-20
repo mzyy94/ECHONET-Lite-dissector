@@ -1,0 +1,5 @@
+v1.0.0
+First public release
+- Show class group name
+- Show class name
+- Show ESV symbol
