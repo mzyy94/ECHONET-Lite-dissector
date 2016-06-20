@@ -40,14 +40,26 @@ function edata.dissector(buffer, pinfo, tree)
 
     local subtree = tree:add(edata, buffer(0, data_len))
 
+    local sobj = "Unknown"
+    if list.class[buffer(0,1):uint()] ~= nil and list.class[buffer(0,1):uint()][buffer(1,1):uint()] ~= nil then
+        sobj = list.class[buffer(0,1):uint()][buffer(1,1):uint()]
+    end
+
     local seojtree = subtree:add(edata.fields.seoj, buffer(0, 3))
+    seojtree:append_text(string.format(" (%s)", sobj))
     seojtree:add(edata.fields.seojgroup, buffer(0, 1))
-    seojtree:add(edata.fields.seojclass, buffer(1, 1))
+    seojtree:add(edata.fields.seojclass, buffer(1, 1), buffer(1,1):uint(), "Class code:", sobj, string.format("(0x%02x)", buffer(1,1):uint()))
     seojtree:add(edata.fields.seojinstance, buffer(2, 1))
 
+    local dobj = "Unknown"
+    if list.class[buffer(3,1):uint()] ~= nil and list.class[buffer(3,1):uint()][buffer(4,1):uint()] ~= nil then
+        dobj = list.class[buffer(3,1):uint()][buffer(4,1):uint()]
+    end
+
     local deojtree = subtree:add(edata.fields.deoj, buffer(3, 3))
+    deojtree:append_text(string.format(" (%s)", dobj))
     deojtree:add(edata.fields.deojgroup, buffer(3, 1))
-    deojtree:add(edata.fields.deojclass, buffer(4, 1))
+    deojtree:add(edata.fields.deojclass, buffer(4, 1), buffer(4,1):uint(), "Class code:", dobj, string.format("(0x%02x)", buffer(4,1):uint()))
     deojtree:add(edata.fields.deojinstance, buffer(5, 1))
 
     subtree:add(edata.fields.esv,  buffer(6, 1))
