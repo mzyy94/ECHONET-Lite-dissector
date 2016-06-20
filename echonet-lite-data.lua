@@ -30,6 +30,10 @@ edata.fields.deojclass = ProtoField.uint8("echonetlite.edata.deoj.class", "Class
 edata.fields.deojinstance = ProtoField.uint8("echonetlite.edata.deoj.instance", "Instance code", base.HEX)
 edata.fields.esv  = ProtoField.uint8("echonetlite.edata.esv", "ECHONET Lite service (ESV)",  base.HEX, list.esv)
 edata.fields.opc  = ProtoField.uint8("echonetlite.edata.opc", "Property size (OPC)",  base.DEC)
+edata.fields.property  = ProtoField.none("echonetlite.edata.property", "Property")
+edata.fields.epc  = ProtoField.uint8("echonetlite.edata.epc", "ECHONET Property (EPC)",  base.HEX)
+edata.fields.pdc  = ProtoField.uint8("echonetlite.edata.pdc", "Property Data Counter (PDC)",  base.DEC)
+edata.fields.edt  = ProtoField.bytes("echonetlite.edata.edt",  "ECHONET Property Value Data (EDT)",  base.HEX)
 
 -- ========================================================
 -- Parse ECHONET Lite Data fields.
@@ -64,4 +68,17 @@ function edata.dissector(buffer, pinfo, tree)
 
     subtree:add(edata.fields.esv,  buffer(6, 1))
     subtree:add(edata.fields.opc,  buffer(7, 1))
+
+    begin = 8
+    for i=1,buffer(7, 1):uint() do
+        local pdc = buffer(begin + 1, 1):uint()
+        local proptree = subtree:add(edata.fields.property, buffer(begin, pdc + 2))
+        proptree:append_text(string.format(" %d", i))
+        proptree:add(edata.fields.epc, buffer(begin, 1))
+        proptree:add(edata.fields.pdc, buffer(begin + 1, 1), pdc)
+        if pdc > 0 then
+            proptree:add(edata.fields.edt, buffer(begin + 2, pdc))
+        end
+        begin = begin + 2 + pdc
+    end
 end
