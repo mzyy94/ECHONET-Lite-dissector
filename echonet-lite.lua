@@ -63,16 +63,21 @@ function echonetlite.dissector(buffer, pinfo, tree)
 
     local tidtree = subtree:add(echonetlite.fields.tid, buffer(2, 2))
     local tid = buffer(2, 2):uint()
-    if reqlist[tid] == nil or reqlist[tid] == pinfo.number then
-        reqlist[tid] = pinfo.number
-        if reslist[tid] ~= nil then
-            tidtree:add(echonetlite.fields.reqin, buffer(2, 2), reslist[tid])
+    local src, dst = tostring(pinfo.src), tostring(pinfo.dst)
+    if reqlist[dst] == nil or reqlist[dst][tid] == nil then
+        if not reqlist[src] then
+            reqlist[src] = {}
+        end
+        reqlist[src][tid] = pinfo.number
+        if reslist[dst] ~= nil and reslist[dst][tid] ~= nil then
+            tidtree:add(echonetlite.fields.resin, buffer(2, 2), reslist[dst][tid])
         end
     else
-        reslist[tid] = pinfo.number
-        if reslist[tid] ~= nil then
-            tidtree:add(echonetlite.fields.resin, buffer(2, 2), reqlist[tid])
+        if not reslist[src] then
+            reslist[src] = {}
         end
+        reslist[src][tid] = pinfo.number
+        tidtree:add(echonetlite.fields.reqin, buffer(2, 2), reqlist[dst][tid])
     end
 
     header_dissector = Dissector.get("echonetlite.edata")
