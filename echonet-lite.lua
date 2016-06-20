@@ -35,10 +35,19 @@ ehd2 = {
 echonetlite.fields.ehd  = ProtoField.protocol("echonetlite.ehd",  "ECHONET Lite Header (EHD)")
 echonetlite.fields.ehd1 = ProtoField.uint8("echonetlite.ehd1",  "EHD1", base.HEX, ehd1)
 echonetlite.fields.ehd2 = ProtoField.uint8("echonetlite.ehd2",  "EHD2", base.HEX, ehd2)
-echonetlite.fields.tid  = ProtoField.uint16("echonetlite.tid",  "TID",  base.HEX)
+echonetlite.fields.tid  = ProtoField.uint16("echonetlite.tid",  "Transaction ID (TID)", base.HEX)
+echonetlite.fields.reqin  = ProtoField.framenum("echonetlite.request_in", "Request In")
+echonetlite.fields.resin  = ProtoField.framenum("echonetlite.response_in", "Response In")
 echonetlite.fields.seoj = ProtoField.uint24("echonetlite.seoj", "SEOJ", base.HEX)
 echonetlite.fields.deoj = ProtoField.uint24("echonetlite.deoj", "DEOJ", base.HEX)
 echonetlite.fields.esv  = ProtoField.uint8("echonetlite.esv",   "ESV",  base.HEX)
+
+-- ========================================================
+-- Local state variable
+-- ========================================================
+
+reqlist = {}
+reslist = {}
 
 -- ========================================================
 -- Parse ECHONET Lite UDP payload fields.
@@ -54,7 +63,21 @@ function echonetlite.dissector(buffer, pinfo, tree)
     local ehdtree = subtree:add(echonetlite.fields.ehd, buffer(0, 2))
     ehdtree:add(echonetlite.fields.ehd1, buffer(0, 1))
     ehdtree:add(echonetlite.fields.ehd2, buffer(1, 1))
-    subtree:add(echonetlite.fields.tid,  buffer(2, 2))
+
+    local tidtree = subtree:add(echonetlite.fields.tid, buffer(2, 2))
+    local tid = buffer(2, 2):uint()
+    if reqlist[tid] == nil or reqlist[tid] == pinfo.number then
+        reqlist[tid] = pinfo.number
+        if reslist[tid] ~= nil then
+            tidtree:add(echonetlite.fields.reqin, buffer(2, 2), reslist[tid])
+        end
+    else
+        reslist[tid] = pinfo.number
+        if reslist[tid] ~= nil then
+            tidtree:add(echonetlite.fields.resin, buffer(2, 2), reqlist[tid])
+        end
+    end
+
     subtree:add(echonetlite.fields.seoj, buffer(4, 3))
     subtree:add(echonetlite.fields.deoj, buffer(7, 3))
     subtree:add(echonetlite.fields.esv,  buffer(10, 1))
