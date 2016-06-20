@@ -13,7 +13,7 @@
 --  http://opensource.org/licenses/MIT
 --
 
-echonetlite = Proto("echonet-lite", "ECHONET Lite")
+echonetlite = Proto("echonetlite", "ECHONET Lite")
 
 -- ========================================================
 -- ECHONET Lite Header value table
