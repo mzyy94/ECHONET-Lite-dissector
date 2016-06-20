@@ -69,6 +69,12 @@ function edata.dissector(buffer, pinfo, tree)
     subtree:add(edata.fields.esv,  buffer(6, 1))
     subtree:add(edata.fields.opc,  buffer(7, 1))
 
+    local esv = list.esv[buffer(6, 1):uint()]
+    if esv == nil then
+        esv = "Unknown"
+    end
+
+    local props = ""
     begin = 8
     for i=1,buffer(7, 1):uint() do
         local pdc = buffer(begin + 1, 1):uint()
@@ -79,6 +85,10 @@ function edata.dissector(buffer, pinfo, tree)
         if pdc > 0 then
             proptree:add(edata.fields.edt, buffer(begin + 2, pdc))
         end
+        props = string.format("%s,0x%02x", props, buffer(begin, 1):uint())
         begin = begin + 2 + pdc
     end
+    props = string.gsub(props, "^,", ", EPC=")
+
+    pinfo.cols.info = string.format("%s → %s, %s%s", sobj, dobj, esv, props)
 end
