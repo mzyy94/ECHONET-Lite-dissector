@@ -52,6 +52,11 @@ reslist = {}
 
 function echonetlite.dissector(buffer, pinfo, tree)
     local data_len = buffer:len()
+    if data_len < 4 or buffer(0,1):uint() ~= 0x10 or (data_len < 12 and buffer(1,1):uint() == 0x81) then
+        local data_dissector = Dissector.get("data")
+        data_dissector:call(buffer(0):tvb(), pinfo, tree)
+        do return end
+    end
 
     pinfo.cols.protocol = "ECHONET Lite"
     pinfo.cols.info = ""
