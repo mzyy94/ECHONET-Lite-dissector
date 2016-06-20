@@ -31,7 +31,19 @@ echonetlite.fields.esv  = ProtoField.uint8("echonetlite.esv",   "ESV",  base.HEX
 -- ========================================================
 
 function echonetlite.dissector(buffer, pinfo, tree)
+    local data_len = buffer:len()
+
     pinfo.cols.protocol = "ECHONET Lite"
+    pinfo.cols.info = ""
+
+    local subtree = tree:add(echonetlite, buffer(0, data_len))
+    subtree:add(echonetlite.fields.ehd1, buffer(0, 1))
+    subtree:add(echonetlite.fields.ehd2, buffer(1, 1))
+    subtree:add(echonetlite.fields.tid,  buffer(2, 2))
+    subtree:add(echonetlite.fields.seoj, buffer(4, 3))
+    subtree:add(echonetlite.fields.deoj, buffer(7, 3))
+    subtree:add(echonetlite.fields.esv,  buffer(10, 1))
+
 end
 
 -- ========================================================
