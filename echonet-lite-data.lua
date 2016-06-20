@@ -16,6 +16,29 @@
 edata = Proto("echonetlite.edata", "ECHONET Lite Data (EDATA)")
 
 -- ========================================================
+-- ECHONET Lite Header value table
+-- ========================================================
+
+esv = {
+    [0x60] = "SetI",
+    [0x61] = "SetC",
+    [0x62] = "Get",
+    [0x63] = "INF_REQ",
+    [0x6E] = "SetGet",
+    [0x71] = "Set_Res",
+    [0x72] = "Get_Res",
+    [0x73] = "INF",
+    [0x74] = "INFC",
+    [0x7A] = "INFC_Res",
+    [0x7E] = "SetGet_Res",
+    [0x50] = "SetI_SNA",
+    [0x51] = "SetC_SNA",
+    [0x52] = "Get_SNA",
+    [0x53] = "INF_SNA",
+    [0x5E] = "SetGet_SNA"
+}
+
+-- ========================================================
 -- ECHONET Lite Data fields definition.
 -- ========================================================
 
@@ -27,7 +50,8 @@ edata.fields.deoj = ProtoField.uint24("echonetlite.edata.deoj", "Destination ECH
 edata.fields.deojgroup = ProtoField.uint8("echonetlite.edata.deoj.classgroup", "Class group code", base.HEX)
 edata.fields.deojclass = ProtoField.uint8("echonetlite.edata.deoj.class", "Class code", base.HEX)
 edata.fields.deojinstance = ProtoField.uint8("echonetlite.edata.deoj.instance", "Instance code", base.HEX)
-edata.fields.esv  = ProtoField.uint8("echonetlite.edata.esv",   "ESV",  base.HEX)
+edata.fields.esv  = ProtoField.uint8("echonetlite.edata.esv", "ECHONET Lite service (ESV)",  base.HEX, esv)
+edata.fields.opc  = ProtoField.uint8("echonetlite.edata.opc", "Property size (OPC)",  base.DEC)
 
 -- ========================================================
 -- Parse ECHONET Lite Data fields.
@@ -49,4 +73,5 @@ function edata.dissector(buffer, pinfo, tree)
     deojtree:add(edata.fields.deojinstance, buffer(5, 1))
 
     subtree:add(edata.fields.esv,  buffer(6, 1))
+    subtree:add(edata.fields.opc,  buffer(7, 1))
 end
