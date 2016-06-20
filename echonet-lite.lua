@@ -80,8 +80,13 @@ function echonetlite.dissector(buffer, pinfo, tree)
         tidtree:add(echonetlite.fields.reqin, buffer(2, 2), reqlist[dst][tid])
     end
 
-    header_dissector = Dissector.get("echonetlite.edata")
-    header_dissector:call(buffer(4):tvb(), pinfo, subtree)
+    if buffer(1, 1):uint() == 0x81 then
+        local edata_dissector = Dissector.get("echonetlite.edata")
+        edata_dissector:call(buffer(4):tvb(), pinfo, subtree)
+    else
+        local data_dissector = Dissector.get("data")
+        data_dissector:call(buffer(4):tvb(), pinfo, subtree)
+    end
 end
 
 -- ========================================================
