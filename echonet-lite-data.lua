@@ -81,7 +81,7 @@ function edata.dissector(buffer, pinfo, tree)
         local pdc = buffer(begin + 1, 1):uint()
         local proptree = subtree:add(edata.fields.property, buffer(begin, pdc + 2))
         proptree:append_text(string.format(" %d", i))
-        epcparser(buffer(3, 1), buffer(4, 1), buffer(begin, 1), buffer(begin + 1, 1), buffer(begin + 2, pdc), proptree, edata, buffer)
+        epcparser(buffer(3, 1), buffer(4, 1), buffer(begin, 1), buffer(begin + 1, 1), buffer(begin + 2, pdc), proptree, edata)
         props = string.format("%s,0x%02x", props, buffer(begin, 1):uint())
         begin = begin + 2 + pdc
     end
