@@ -80,6 +80,72 @@ local function nodeprofile(classgroup, class, epc, pdc, edt, tree, edata)
             tree:append_text(string.format(" = %s, %s", version, type))
             do return end
         end
+        if epc:uint() == 0x83 then
+            local edttree = tree:add(edata.fields.edt, edt)
+            if pdc:uint() ~= 17 then
+                do return end
+            end
+            edttree:add(edt:range(0, 1), "Communication ID:", string.format("0x%02x", edt:range(0, 1):uint()))
+            edttree:add(edt:range(1, 3), "Manufacturer code:", tostring(edt:range(1, 3):bytes()))
+            edttree:add(edt:range(4, 13), "Unique ID:", tostring(edt:range(4, 13):bytes()))
+            do return end
+        end
+        if epc:uint() == 0x88 then
+            local state = {
+                [0x41] = "Fault encountered",
+                [0x42] = "No fault encountered"
+            }
+            local edttree = tree:add(edata.fields.edt, edt)
+            edttree:append_text(string.format(" (%s)", state[edt:uint()]))
+            tree:append_text(string.format(" = %s", state[edt:uint()]))
+            do return end
+        end
+        if epc:uint() == 0x89 then -- nothing to parse
+        end
+        if epc:uint() == 0x8a then
+            local edttree = tree:add(edata.fields.edt, edt)
+            if pdc:uint() ~= 3 then
+                do return end
+            end
+            edttree:add(edt:range(0, 3), "Manufacturer code:", tostring(edt:range(0, 3):bytes()))
+            do return end
+        end
+        if epc:uint() == 0x8b then -- nothing to parse
+        end
+        if epc:uint() == 0x8c or epc:uint() == 0x8d then
+            local edttree = tree:add(edata.fields.edt, edt)
+            if pdc:uint() ~= 12 then
+                do return end
+            end
+            edttree:append_text(string.format(" [%s]", edt:range(0, 12):string()))
+            do return end
+        end
+        if epc:uint() == 0x8e then
+            local edttree = tree:add(edata.fields.edt, edt)
+            if pdc:uint() ~= 4 then
+                do return end
+            end
+            edttree:append_text(string.format(" [%d/%d/%d]", edt:range(0, 2):uint(), edt:range(1,1):uint(), edt:range(2,1):uint()))
+            do return end
+        end
+        if epc:uint() == 0xbf then -- nothing to parse
+        end
+        if epc:uint() == 0xd3 then
+            local edttree = tree:add(edata.fields.edt, edt)
+            if pdc:uint() ~= 3 then
+                do return end
+            end
+            edttree:add(edt:range(0, 3), "Instance count:", tostring(edt:range(0, 3):uint()))
+            do return end
+        end
+        if epc:uint() == 0xd4 then
+            local edttree = tree:add(edata.fields.edt, edt)
+            if pdc:uint() ~= 2 then
+                do return end
+            end
+            edttree:add(edt:range(0, 2), "Instance count:", tostring(edt:range(0, 2):uint()))
+            do return end
+        end
         if epc:uint() == 0xd5 or epc:uint() == 0xd6 then
             local edttree = tree:add(edata.fields.edt, edt)
             edttree:add(edt:range(0, 1), "Instance count:", edt:range(0, 1):uint())
