@@ -1,7 +1,10 @@
 # ECHONET-Lite-dissector
 ECHONET Lite プロトコル解析器 for Wireshark
 
-_Version 1.1.0_
+[![GitHub release](https://img.shields.io/github/release/mzyy94/ECHONET-Lite-dissector.svg?maxAge=2592000&style=flat-square)](https://github.com/mzyy94/ECHONET-Lite-dissector/releases)
+[![GitHub issues](https://img.shields.io/github/issues/mzyy94/ECHONET-Lite-dissector.svg?style=flat-square)](https://github.com/mzyy94/ECHONET-Lite-dissector/issues)
+[![GitHub stars](https://img.shields.io/github/stars/mzyy94/ECHONET-Lite-dissector.svg?style=flat-square)](https://github.com/mzyy94/ECHONET-Lite-dissector/stargazers)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/mzyy94/ECHONET-Lite-dissector/master/LICENSE)
 
 ![preview](preview.png)
 
@@ -57,4 +60,6 @@ pluginsディレクトリは、以下の場所にあります。
 See [ChangeLog.txt](ChangeLog.txt)
 
 ## Lisence
-MIT
+ECHONET-Lite-dissector is licensed under the [MIT](LICENSE) license.
+
+Copyright &copy; 2016, Yuki MIZUNO
