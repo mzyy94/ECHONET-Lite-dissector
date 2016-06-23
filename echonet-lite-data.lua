@@ -81,7 +81,11 @@ function edata.dissector(buffer, pinfo, tree)
         local pdc = buffer(begin + 1, 1):uint()
         local proptree = subtree:add(edata.fields.property, buffer(begin, pdc + 2))
         proptree:append_text(string.format(" %d", i))
-        epcparser(buffer(3, 1), buffer(4, 1), buffer(begin, 1), buffer(begin + 1, 1), buffer(begin + 2, pdc), proptree, edata)
+        if 0 <= buffer(6, 1):uint() and buffer(6, 1):uint() <= 0x6F then -- Request service code
+            epcparser(buffer(3, 1), buffer(4, 1), buffer(begin, 1), buffer(begin + 1, 1), buffer(begin + 2, pdc), proptree, edata)
+        else
+            epcparser(buffer(0, 1), buffer(1, 1), buffer(begin, 1), buffer(begin + 1, 1), buffer(begin + 2, pdc), proptree, edata)
+        end
         props = string.format("%s,0x%02x", props, buffer(begin, 1):uint())
         begin = begin + 2 + pdc
     end
