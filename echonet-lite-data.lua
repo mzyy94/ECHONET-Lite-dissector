@@ -13,6 +13,7 @@
 --  http://opensource.org/licenses/MIT
 --
 local list = require("echonet-lite-codelist")
+local epcparser = require("echonet-lite-epcparser")
 
 edata = Proto("echonetlite.edata", "ECHONET Lite Data (EDATA)")
 
@@ -80,11 +81,7 @@ function edata.dissector(buffer, pinfo, tree)
         local pdc = buffer(begin + 1, 1):uint()
         local proptree = subtree:add(edata.fields.property, buffer(begin, pdc + 2))
         proptree:append_text(string.format(" %d", i))
-        proptree:add(edata.fields.epc, buffer(begin, 1))
-        proptree:add(edata.fields.pdc, buffer(begin + 1, 1), pdc)
-        if pdc > 0 then
-            proptree:add(edata.fields.edt, buffer(begin + 2, pdc))
-        end
+        epcparser(buffer(3, 1), buffer(4, 1), buffer(begin, 1), buffer(begin + 1, 1), buffer(begin + 2, pdc), proptree, edata, buffer)
         props = string.format("%s,0x%02x", props, buffer(begin, 1):uint())
         begin = begin + 2 + pdc
     end
