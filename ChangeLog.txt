@@ -1,3 +1,8 @@
+v1.1.0
+All node profile property decoding support
+- Display node profile's property name
+- Decode all defined ESV of node profile
+
 v1.0.0
 First public release
 - Show class group name

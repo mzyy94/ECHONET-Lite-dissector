@@ -1,6 +1,8 @@
 # ECHONET-Lite-dissector
 ECHONET Lite プロトコル解析器 for Wireshark
 
+_Version 1.1.0_
+
 ![preview](preview.png)
 
 ## About ECHONET-Lite-dissector
@@ -47,7 +49,9 @@ pluginsディレクトリは、以下の場所にあります。
 - [x] クラス名の表示
 - [x] ESVの記号の表示
 - [ ] EPCのプロパティ名の表示
+  - [x] ノードプロファイル
 - [ ] EDTの意味の解釈
+  - [x] ノードプロファイル
 
 ## ChangeLog
 See [ChangeLog.txt](ChangeLog.txt)
