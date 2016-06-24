@@ -1,3 +1,9 @@
+v1.2.0
+All open close sensor property decoding support
+- Display open close sensor's property name
+- Decode all defined ESV of open close sensor
+- Some bug fixes
+
 v1.1.0
 All node profile property decoding support
 - Display node profile's property name

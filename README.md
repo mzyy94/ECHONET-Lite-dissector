@@ -53,8 +53,10 @@ pluginsディレクトリは、以下の場所にあります。
 - [x] ESVの記号の表示
 - [ ] EPCのプロパティ名の表示
   - [x] ノードプロファイル
+  - [x] 開閉センサー
 - [ ] EDTの意味の解釈
   - [x] ノードプロファイル
+  - [x] 開閉センサー
 
 ## ChangeLog
 See [ChangeLog.txt](ChangeLog.txt)
