@@ -111,6 +111,9 @@ local function nodeprofile(classgroup, class, epc, pdc, edt, tree, edata)
             for i=1,edt:range(0, 1):uint() do
                 local property = properties[edt:range(i, 1):uint()]
                 edttree:add(edt:range(i, 1), "-", property)
+                if i >= 16 then
+                    do return end
+                end
             end
         -- elseif epc:uint() == 0xbf then -- nothing to parse
         elseif epc:uint() == 0xd3 then
@@ -132,6 +135,9 @@ local function nodeprofile(classgroup, class, epc, pdc, edt, tree, edata)
                     obj = list.class[edt:range(index, 1):uint()][edt:range(index + 1, 1):uint()]
                 end
                 edttree:add(edt:range(index, 3), "-", obj, string.format("(ID: %d)", edt:range(index + 2, 1):uint()))
+                if i >= 84 then
+                    do return end
+                end
             end
         elseif epc:uint() == 0xd7 then
             edttree:add(edt:range(0, 1), "Class count:", edt:range(0, 1):uint())
@@ -142,6 +148,9 @@ local function nodeprofile(classgroup, class, epc, pdc, edt, tree, edata)
                     obj = list.class[edt:range(index, 1):uint()][edt:range(index + 1, 1):uint()]
                 end
                 edttree:add(edt:range(index, 2), "-", obj)
+                if i >= 8 then
+                    do return end
+                end
             end
         end
     end
