@@ -61,15 +61,15 @@ local function nodeprofile(classgroup, class, epc, pdc, edt, tree, edata)
             if pdc:uint() ~= 4 then
                 do return end
             end
-            local major = pdc:range(0, 1):uint()
-            local minor = pdc:range(1, 1):uint()
+            local major = edt:range(0, 1):uint()
+            local minor = edt:range(1, 1):uint()
             local version = string.format("Version %d.%d", major, minor)
             local type = ""
-            if pdc:range(2, 1):uint() == 0x03 then
+            if edt:range(2, 1):uint() == 0x03 then
                 type = "Format 1 and Format 2"
-            elseif pdc:range(2, 1):uint() == 0x02 then
+            elseif edt:range(2, 1):uint() == 0x02 then
                 type = "Format 1"
-            elseif pdc:range(2, 1):uint() == 0x01 then
+            elseif edt:range(2, 1):uint() == 0x01 then
                 type = "Format 2"
             end
 
