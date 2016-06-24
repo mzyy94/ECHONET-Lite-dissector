@@ -105,7 +105,7 @@ local function nodeprofile(classgroup, class, epc, pdc, edt, tree, edata)
             if pdc:uint() ~= 4 then
                 do return end
             end
-            edttree:append_text(string.format(" [%d/%d/%d]", edt:range(0, 2):uint(), edt:range(1,1):uint(), edt:range(2,1):uint()))
+            edttree:append_text(string.format(" [%d/%d/%d]", edt:range(0, 2):uint(), edt:range(2,1):uint(), edt:range(3,1):uint()))
         elseif epc:uint() == 0x9d or epc:uint() == 0x9e or epc:uint() == 0x9f then
             edttree:add(edt:range(0, 1), "Property count:", edt:range(0, 1):uint())
             for i=1,edt:range(0, 1):uint() do
