@@ -13,6 +13,7 @@
 --  http://opensource.org/licenses/MIT
 --
 local nodeprofile = require("epcparser/node-profile")
+local openclosesensor = require("epcparser/sensor/open-close")
 
 -- ========================================================
 -- ECHONET Lite epc parser
@@ -22,6 +23,12 @@ local function epcparser(classgroup, class, epc, pdc, edt, tree, edata)
     if classgroup:uint() == 0x0e and class:uint() == 0xf0 then -- Node profile
         nodeprofile(classgroup, class, epc, pdc, edt, tree, edata)
         do return end
+    end
+    if classgroup:uint() == 0x00 then -- sensor class
+        if class:uint() == 0x29 then -- open/close sensor
+            openclosesensor(classgroup, class, epc, pdc, edt, tree, edata)
+            do return end
+        end
     end
     tree:add(edata.fields.epc, epc)
     tree:add(edata.fields.pdc, pdc)
