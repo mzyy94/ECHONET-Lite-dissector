@@ -96,7 +96,7 @@ local function devicesuperclass(classgroup, class, epc, pdc, edt, tree, edata, p
         end
         edttree:add(edt:range(0, 1), "Fault code size:", tostring(edt:range(0, 1):uint()))
         edttree:add(edt:range(1, 3), "Manufacturer code:", tostring(edt:range(1, 3):bytes()))
-        edttree:add(edt:range(4, edt:range(0, 1):uint(), "Manufacturer-defined fault code:", tostring(edt:range(4, edt:range(0, 1):uint()):bytes())))
+        edttree:add(edt:range(4, edt:range(0, 1):uint()), "Manufacturer-defined fault code:", tostring(edt:range(4, edt:range(0, 1):uint()):bytes()))
     elseif epc:uint() == 0x87 then
         edttree:append_text(string.format(" (%d %)", edt:uint()))
         tree:append_text(string.format(" = %d %", edt:uint()))
