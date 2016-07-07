@@ -68,9 +68,9 @@ local function nodeprofile(classgroup, class, epc, pdc, edt, tree, edata)
             if edt:range(2, 1):uint() == 0x03 then
                 type = "Format 1 and Format 2"
             elseif edt:range(2, 1):uint() == 0x02 then
-                type = "Format 1"
+                type = "Format 2 [Arbitrary message format]"
             elseif edt:range(2, 1):uint() == 0x01 then
-                type = "Format 2"
+                type = "Format 1 [Specified message format]"
             end
 
             edttree:append_text(string.format(" (%s, %s)", version, type))
