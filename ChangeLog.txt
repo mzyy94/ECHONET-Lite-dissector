@@ -1,3 +1,7 @@
+v1.2.1
+Patch release
+- Some bug fixes
+
 v1.2.0
 All open close sensor property decoding support
 - Display open close sensor's property name
