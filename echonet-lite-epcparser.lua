@@ -12,8 +12,8 @@
 --  This software is released under the MIT License.
 --  http://opensource.org/licenses/MIT
 --
-local nodeprofile = require("epcparser/node-profile")
-local openclosesensor = require("epcparser/sensor/open-close")
+local nodeprofile = require("group-0x0e-node-profile")
+local openclosesensor = require("group-0x00-open-close")
 
 -- ========================================================
 -- ECHONET Lite epc parser

@@ -12,8 +12,8 @@
 --  This software is released under the MIT License.
 --  http://opensource.org/licenses/MIT
 --
-local devicesuperclass = require("../../epcparser/device-superclass")
-local list = require("../../echonet-lite-codelist")
+local devicesuperclass = require("device-superclass")
+local list = require("echonet-lite-codelist")
 local properties = {
     [0xe0] = "Degree-of-opening detection status 1",
     [0xb0] = "Detection threshold level",

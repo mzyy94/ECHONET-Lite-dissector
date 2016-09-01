@@ -12,7 +12,7 @@
 --  This software is released under the MIT License.
 --  http://opensource.org/licenses/MIT
 --
-local list = require("../echonet-lite-codelist")
+local list = require("echonet-lite-codelist")
 local properties = {
     [0x80] = "Operating status",
     [0x82] = "Version information",
