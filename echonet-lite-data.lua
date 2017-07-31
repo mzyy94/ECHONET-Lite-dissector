@@ -34,7 +34,7 @@ edata.fields.opc  = ProtoField.uint8("echonetlite.edata.opc", "Property size (OP
 edata.fields.property  = ProtoField.none("echonetlite.edata.property", "Property")
 edata.fields.epc  = ProtoField.uint8("echonetlite.edata.epc", "ECHONET Property (EPC)",  base.HEX)
 edata.fields.pdc  = ProtoField.uint8("echonetlite.edata.pdc", "Property Data Counter (PDC)",  base.DEC)
-edata.fields.edt  = ProtoField.bytes("echonetlite.edata.edt",  "ECHONET Property Value Data (EDT)",  base.HEX)
+edata.fields.edt  = ProtoField.bytes("echonetlite.edata.edt", "ECHONET Property Value Data (EDT)", base.SPACE)
 
 -- ========================================================
 -- Parse ECHONET Lite Data fields.
